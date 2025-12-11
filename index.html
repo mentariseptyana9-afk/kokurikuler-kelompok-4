@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warisan Nusantara Digital | Seni, Kriya, dan Tradisi</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variabel Warna */
+        :root {
+            --color-primary: #A52A2A; /* Cokelat Terakota/Bata (Strong) */
+            --color-secondary: #000; /* Hitam */
+            --color-accent: #FFD700; /* Emas (Aksen Menonjol) */
+            --color-background: #F0EAD6; /* Krem Pucat/Kertas Tua */
+            --color-card-bg: #FFFFFF;
+
+            --dark-primary: #4B0000;
+            --dark-secondary: #E0E0E0;
+            --dark-background: #1A1A1A;
+            --dark-card-bg: #2C2C2C;
+            
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        /* BASE */
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-background);
+            color: var(--color-secondary);
+            transition: background-color 0.5s ease, color 0.5s ease;
+            scroll-behavior: smooth;
+            padding-top: 70px; /* Jarak untuk navbar fixed */
+        }
+        a { text-decoration: none; color: var(--color-primary); }
+        .section-title {
+            font-size: 2.5em; font-family: var(--font-heading); margin-bottom: 2em;
+            color: var(--color-primary); position: relative; padding-bottom: 10px;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 60px; height: 3px;
+            background-color: var(--color-accent); position: absolute;
+            bottom: 0; left: 50%; transform: translateX(-50%);
+        }
+
+        /* LOADING SCREEN */
+        #loading {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--color-background); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; transition: opacity 0.5s, visibility 0.5s;
+        }
+        .spinner {
+            border: 8px solid var(--color-primary); border-top: 8px solid var(--color-accent);
+            border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; display: flex;
+            justify-content: space-between; align-items: center; padding: 15px 5%;
+            background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000; transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .navbar .logo { color: var(--color-primary); font-family: var(--font-heading); font-size: 1.8em; }
+        #nav-menu { list-style: none; display: flex; margin: 0; padding: 0; }
+        #nav-menu li a { padding: 10px 15px; color: var(--color-secondary); font-weight: 500; transition: color 0.3s ease; }
+        #nav-menu li a:hover { color: var(--color-accent); }
+        #hamburger { display: none; cursor: pointer; font-size: 1.5em; color: var(--color-primary); margin-left: 20px; }
+        .dark-toggle, .music-btn { background: none; border: none; font-size: 1.5em; cursor: pointer; margin-left: 15px; }
+        .music-btn {
+            position: fixed; bottom: 20px; right: 20px; background-color: var(--color-primary);
+            color: var(--color-accent); padding: 10px 15px; border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 900;
+        }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            padding-top: 80px;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.ibb.co/6y4jGkS/hero-bg.jpg') center/cover no-repeat;
+            display: flex; justify-content: center; align-items: center; text-align: center;
+        }
+        .hero-content h2 { font-size: 4em; color: #fff; font-family: var(--font-heading); }
+        .hero-content p { font-size: 1.2em; color: #ddd; margin-bottom: 30px; }
+        .btn {
+            padding: 12px 30px; background-color: var(--color-accent); color: var(--color-primary);
+            border-radius: 5px; font-weight: bold; transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .btn:hover { background-color: #FFC947; transform: translateY(-2px); }
+
+        /* SECTION & CARD */
+        .section { padding: 80px 5%; text-align: center; }
+        .section.alt { background-color: #E6E0D2; }
+        .card-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; }
+        .card {
+            width: 300px; background-color: var(--color-card-bg); border-radius: 15px;
+            overflow: hidden; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;
+            border-bottom: 5px solid var(--color-primary);
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); }
+        .card img { width: 100%; height: 200px; object-fit: cover; transition: transform 0.5s ease; }
+        .card:hover img { transform: scale(1.05); }
+        .card h3 { padding: 15px 0; color: var(--color-primary); font-size: 1.2em; }
+
+        /* AOS */
+        .fade-in, .fade-up { opacity: 0; transition: opacity 1s ease-out, transform 1s ease-out; }
+        .fade-in.appear { opacity: 1; }
+        .fade-up { transform: translateY(50px); }
+        .fade-up.appear { opacity: 1; transform: translateY(0); }
+
+        /* LIGHTBOX */
+        .lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); display: none; 
+            justify-content: center; align-items: center; flex-direction: column; z-index: 2000;
+        }
+        #lightbox-img { max-width: 90%; max-height: 80%; display: block; margin: auto; border-radius: 10px; }
+        #lightbox-title { color: #fff; margin-top: 15px; font-size: 2em; font-family: var(--font-heading); }
+        .close-lightbox {
+            position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer;
+        }
+        .close-lightbox:hover { color: var(--color-accent); }
+
+        /* DARK MODE */
+        body.dark-mode {
+            --color-primary: var(--dark-primary); --color-secondary: var(--dark-secondary);
+            --color-background: var(--dark-background); --color-card-bg: var(--dark-card-bg);
+            color: var(--dark-secondary);
+        }
+        body.dark-mode .navbar { background-color: rgba(30, 30, 30, 0.95); }
+        body.dark-mode .section.alt { background-color: #262626; }
+
+        /* MEDIA QUERIES */
+        @media (max-width: 992px) {
+            #nav-menu {
+                display: none; flex-direction: column; position: absolute; top: 100%; left: 0;
+                width: 100%; background-color: var(--color-background); box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                padding: 10px 0;
+            }
+            #nav-menu.active { display: flex; }
+            #nav-menu li a { padding: 10px 5%; text-align: left; }
+            #hamburger { display: block; }
+            .hero-content h2 { font-size: 3em; }
+        }
+        @media (max-width: 768px) {
+            .card { width: 80%; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading">
+    <div class="spinner"></div>
+    <p>Memuat Warisan Nusantara...</p>
+</div>
+
+<header class="navbar">
+    <h1 class="logo">Warisan Nusantara</h1>
+
+    <nav>
+        <ul id="nav-menu">
+            <li><a href="#seni">Seni Pertunjukan</a></li>
+            <li><a href="#kriya">Artefak & Kriya</a></li>
+            <li><a href="#tradisi">Tradisi & Ritual</a></li>
+            <li><a href="#kuliner">Kuliner Khas</a></li>
+            <li><a href="#">Halaman Lengkap</a></li> </ul>
+    </nav>
+
+    <div id="hamburger">☰</div>
+    <button id="darkModeBtn" class="dark-toggle">🌙</button>
+</header>
+
+<audio id="bgm" loop>
+    </audio>
+<button class="music-btn" onclick="toggleMusic">🎵</button>
+
+<section class="hero fade-in">
+    <div class="hero-content">
+        <h2>Warisan Nusantara Digital</h2>
+        <p>Eksplorasi budaya Indonesia dalam satu genggaman.</p>
+        <a href="#seni" class="btn">Mulai Jelajah</a>
+    </div>
+</section>
+
+<section id="seni" class="section fade-up">
+    <h2 class="section-title">Seni Pertunjukan</h2>
+    <p> ekspresi jiwa dan keindahan melalui berbagai bentuk karya yang dibuat oleh manusia, dan merupakan bagian dari kebudayaan. 
+.</p>
+    
+    <div class="card-container">
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\Reog_tanpa_mistis.jpg">
+            <h3>Tari Tradisional</h3>
+            <p class="text-muted small">Reog Ponorogo berasal dari Ponorogo, Jawa Timur, dengan ciri topeng besar Singa Barong yang berat. Tarian ini membutuhkan kekuatan fisik tinggi dan diiringi musik ritmis khas Reog. Ceritanya menggambarkan pertarungan kebaikan dan kepemimpinan kerajaan. Pertunjukan ini sarat simbol magis dan tradisi masyarakat. Reog menjadi identitas budaya Ponorogo.
+</p>
+        </div>
+
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\Traditional_indonesian_instruments02.jpg">
+            <h3>Musik Tradisional</h3>
+            <p class="text-muted small">Gamelan adalah ansambel musik Jawa dan Bali yang terdiri dari gong, saron, kenong, dan instrumen lain. Musiknya harmonis dan digunakan untuk mengiringi tari, upacara, hingga wayang. Setiap daerah memiliki gaya berbeda, seperti Jawa yang lembut dan Bali yang dinamis. Gamelan memainkan pola ritme berlapis. Filosofinya menekankan keselarasan hidup.</p>
+        </div>
+
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\image.jpg">
+            <h3>Teater Tradisional</h3>
+            <p class="text-muted small">Wayang Kulit adalah teater bayangan yang dimainkan oleh dalang menggunakan boneka kulit. Ceritanya diambil dari Ramayana, Mahabharata, dan legenda lokal. Pertunjukan ini diiringi gamelan dan sarat filosofi moral. Dalang berperan sebagai penggerak cerita dan pemberi pesan. Wayang Kulit diakui UNESCO sebagai warisan budaya dunia.</p>
+        </div>
+    </div>
+</section>
+
+<section id="kriya" class="section alt fade-up">
+    <h2 class="section-title">Artefak & Kriya</h2>
+    <p>Mencerminkan kemampuan teknis dan estetika masyarakat dalam mengolah bahan alam menjadi benda bernilai tinggi.</p>
+
+    <div class="card-container">
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\images (1).jpg">
+            <h3>Batik</h3>
+            <p class="text-muted small">Batik Parang merupakan motif klasik Keraton Mataram dengan pola miring menyerupai ombak. Motif ini melambangkan kekuatan, kesinambungan, dan keteguhan. Dahulu hanya untuk keluarga kerajaan. Kini dipakai dalam acara formal sebagai simbol elegansi budaya Jawa. Parang menjadi salah satu motif batik paling dikenal.</p>
+        </div>
+
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\shutterstock_2502570467-e1729586003287.webp">
+            <h3>Tenun</h3>
+            <p class="text-muted small">Tenun dibuat dengan menyilangkan benang lungsi dan pakan secara manual. Setiap daerah memiliki motif khas seperti ikat NTT dan songket Sumatra. Prosesnya rumit dan penuh simbol budaya. Tenun digunakan dalam upacara adat dan pakaian tradisional. Kini juga berkembang dalam fashion modern.
+</p>
+        </div>
+
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\COLLECTIE_TROPENMUSEUM_Kris_met_schede_TMnr_A-1448.jpg">
+            <h3>Senjata Adat</h3>
+            <p class="text-muted small">Keris adalah senjata tradisional dengan bilah berlekuk dan pamor bermakna spiritual. Pembuatannya rumit dan dipercaya menyimpan energi simbolis. Keris digunakan sebagai pusaka, lambang kehormatan, dan perlindungan. Setiap keris memiliki filosofi tersendiri. UNESCO mengakui keris sebagai warisan budaya.</p>
+        </div>
+    </div>
+</section>
+
+<section id="tradisi" class="section fade-up">
+    <h2 class="section-title">Tradisi & Ritual</h2>
+    <p>Praktik sosial yang diwariskan untuk menjaga keseimbangan antara manusia, alam, dan spiritualitas.</p>
+
+    <div class="card-container">
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\images (2).jpg">
+            <h3>Upacara Adat</h3>
+            <p class="text-muted small">Ngaben adalah upacara pembakaran jenazah dalam tradisi Hindu Bali. Ritual ini bertujuan membebaskan roh menuju alam leluhur. Prosesi dilakukan dengan bade atau lembu sebagai wadah jenazah. Suasananya sakral dan penuh keikhlasan. Upacara ini diiringi gamelan dan doa suci.
+</p>
+        </div>
+
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\lake-toba-the-wonder-of-the-lake-in-north-sumatra02.webp">
+            <h3>Cerita Rakyat</h3>
+            <p class="text-muted small">Legenda Danau Toba berkisah tentang Toba yang menikahi wanita jelmaan ikan. Anaknya melanggar larangan rahasia sang ibu hingga terjadi banjir besar. Banjir itu membentuk Danau Toba dan Pulau Samosir. Kisah ini mengandung pesan untuk menjaga janji. Danau Toba menjadi simbol asal-usul masyarakat Batak.
+</p>
+        </div>
+    </div>
+</section>
+
+<section id="kuliner" class="section alt fade-up">
+    <h2 class="section-title">Kuliner Khas</h2>
+    <p>Warisan rasa yang menunjukkan kekayaan rempah dan teknik memasak tradisional.</p>
+
+    <div class="card-container">
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\Resep-Rendang-Daging-Sapi-Untuk-Lebaran-Gurih-dan-Nikmat.jpg">
+            <h3>Rendang</h3>
+            <p class="text-muted small">Rendang adalah masakan Minang dari daging sapi yang dimasak lama dengan rempah dan santan. Rasanya kaya, pedas, dan gurih. Proses pengeringannya membuat rendang tahan lama. Hidangan ini sering disajikan dalam acara adat. Rendang menjadi ikon kuliner Indonesia.</p>
+        </div>
+
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\Aneka-Resep-Pempek-Makanan-Tradisional-Khas-Palembang-750x536.jpg">
+            <h3>Pempek</h3>
+            <p class="text-muted small">Pempek adalah makanan Palembang berbahan ikan dan tapioka. Disajikan dengan kuah cuko yang asam-pedas. Bentuknya beragam seperti kapal selam dan lenjer. Teksturnya kenyal dan gurih. Pempek menjadi kebanggaan kuliner Sumatra Selatan.
+</p>
+        </div>
+
+        <div class="card" onclick="openLightbox(this)">
+            <img src="c:\Users\ASUS\Downloads\gudeg-komplit-signature-legendary-dish-yogyakarta-indonesia-close-up-vertical-picture-413104973.webp">
+            <h3>Gudeg</h3>
+            <p class="text-muted small">Gudeg adalah makanan Yogyakarta dari nangka muda dimasak lama dengan santan dan gula merah. Rasanya manis dan beraroma khas. Biasanya disajikan dengan ayam, telur, dan krecek. Gudeg mencerminkan kelembutan budaya Jawa. Makanan ini menjadi ikon kuliner Yogyakarta.</p>
+        </div>
+    </div>
+</section>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img" onclick="event.stopPropagation()">
+    <h3 id="lightbox-title"></h3>
+</div>
+
+<footer>
+    <p>© 2025 Warisan Nusantara Digital | Dibuat dengan semangat melestarikan budaya(kelompok 4)</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+
+    const loadingScreen = document.getElementById('loading');
+    const mainNav = document.querySelector('.navbar');
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    const body = document.body;
+    const bgm = document.getElementById('bgm');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+
+    // --- A. LOADING SCREEN & FADE-OUT ---
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.visibility = 'hidden';
+            setupAOS(); // Jalankan AOS setelah loading hilang
+        }, 500); 
+    });
+
+    // --- B. TOGGLE NAVIGASI ---
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 992) {
+                navMenu.classList.remove('active');
+            }
+        });
+    });
+
+    // --- C. DARK MODE TOGGLE ---
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        body.classList.add('dark-mode');
+        darkModeBtn.textContent = '☀️';
+    }
+    darkModeBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            darkModeBtn.textContent = '☀️';
+        } else {
+            localStorage.setItem('theme', 'light');
+            darkModeBtn.textContent = '🌙';
+        }
+    });
+
+    // --- D. AUDIO LATAR (BGM) TOGGLE ---
+    window.toggleMusic = function() {
+        if (bgm.paused) {
+            bgm.play().catch(error => {
+                console.log("Audio play blocked:", error);
+                alert("Browser memblokir pemutaran otomatis. Silakan klik lagi untuk memutar musik.");
+            });
+        } else {
+            bgm.pause();
+        }
+    };
+    
+    // --- E. SMOOTH SCROLLING ---
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            // Scroll ke elemen target dengan mempertimbangkan tinggi navbar
+            const targetElement = document.querySelector(this.getAttribute('href'));
+            const offset = mainNav.offsetHeight; 
+            
+            window.scrollTo({
+                top: targetElement.offsetTop - offset,
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // --- F. ANIMATION ON SCROLL (AOS) SETUP ---
+    function setupAOS() {
+        const fadeElements = document.querySelectorAll('.fade-in, .fade-up, .card'); 
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
+    }
+
+    // --- G. LIGHTBOX / GALERI POPUP ---
+    window.openLightbox = function(card) {
+        const imgSrc = card.querySelector('img').src;
+        const titleText = card.querySelector('h3').textContent;
+        
+        lightboxImg.src = imgSrc;
+        lightboxTitle.textContent = titleText;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; 
+    };
+
+    window.closeLightbox = function() {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto'; 
+    };
+
+    // Tutup lightbox jika tombol ESC ditekan
+    document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape" && lightbox.style.display === 'flex') {
+            closeLightbox();
+        }
+    });
+
+});
+</script>
+
+</body>
+</html>

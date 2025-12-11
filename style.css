@@ -1,0 +1,281 @@
+/* =========================================================================
+   PALET WARNA (Inspirasi Nusantara)
+   --color-primary: #8B4513;   (Cokelat Tanah - Kekuatan & Tradisi)
+   --color-secondary: #FFD700; (Emas - Kemewahan & Keagungan)
+   --color-accent: #008CBA;    (Biru Laut - Eksplorasi & Kesejukan)
+   --color-text: #333333;
+   --color-light-bg: #F5F5DC;  (Beige Muda - Latar Belakang Hangat)
+   ========================================================================= */
+
+:root {
+    --color-primary: #8B4513;
+    --color-secondary: #FFD700;
+    --color-accent: #008CBA;
+    --color-text: #333333;
+    --color-light-bg: #F5F5DC;
+    --color-white: #ffffff;
+}
+
+/* RESET DASAR */
+body {
+    font-family: 'Poppins', sans-serif; /* Asumsi font modern */
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-light-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    color: var(--color-primary);
+    margin-top: 0;
+}
+
+/* =========================================================================
+   NAVIGASI (HEADER)
+   ========================================================================= */
+.hero-section {
+    background: linear-gradient(135deg, var(--color-primary), #A0522D); /* Gradien Cokelat */
+    color: var(--color-white);
+    padding-bottom: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background-color: rgba(0, 0, 0, 0.1); /* Sedikit transparan */
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--color-secondary); /* Emas */
+}
+
+.navbar nav a {
+    color: var(--color-white);
+    text-decoration: none;
+    margin-left: 25px;
+    padding: 5px 0;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.navbar nav a:hover {
+    color: var(--color-secondary);
+    border-bottom: 2px solid var(--color-secondary);
+}
+
+/* HERO CONTENT */
+.hero-content {
+    text-align: center;
+    padding: 80px 5% 40px;
+}
+
+.hero-content h1 {
+    font-size: 3.2em;
+    margin-bottom: 15px;
+    color: var(--color-white);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-content p {
+    font-size: 1.3em;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+/* =========================================================================
+   BUTTONS (CTA)
+   ========================================================================= */
+.cta-button {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #FFC700;
+    transform: translateY(-2px);
+}
+
+.secondary-button {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    padding: 10px 25px;
+    border: 2px solid var(--color-accent);
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 5px;
+}
+
+.secondary-button:hover {
+    background-color: #007AA8;
+}
+
+/* =========================================================================
+   MAIN CONTENT SECTIONS
+   ========================================================================= */
+main {
+    max-width: 1200px;
+    margin: -30px auto 40px; /* Diangkat sedikit ke hero section */
+    padding: 0 20px;
+}
+
+.content-section {
+    background-color: var(--color-white);
+    padding: 40px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* PETA SECTION */
+.placeholder-map {
+    height: 400px;
+    background-color: #e9e9e9;
+    border: 2px dashed var(--color-accent);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    border-radius: 8px;
+}
+
+/* ENSIKLOPEDIA GRID */
+.kategori-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: var(--color-light-bg);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: box-shadow 0.3s, transform 0.3s;
+    border-bottom: 3px solid var(--color-secondary);
+}
+
+.card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+}
+
+.card h3 {
+    color: var(--color-accent);
+}
+
+/* ARENA SECTION */
+.arena-section {
+    text-align: center;
+    border: 2px solid var(--color-secondary);
+}
+
+#leaderboard-preview {
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #FFFACD; /* Kuning Pucat */
+    border-radius: 5px;
+    border-left: 5px solid var(--color-secondary);
+    max-width: 600px;
+}
+
+/* KOMUNITAS SECTION */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 25px;
+    background-color: var(--color-primary);
+    color: var(--color-light-bg);
+    font-size: 0.9em;
+}
+
+.footer-links a {
+    color: var(--color-secondary);
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================================================
+   RESPONSIVITAS DASAR (Untuk tampilan Mobile)
+   ========================================================================= */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .navbar nav {
+        margin-top: 15px;
+    }
+
+    .navbar nav a {
+        margin: 0 10px;
+        display: inline-block;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2em;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .secondary-button {
+        width: 80%; /* Tombol lebih lebar di mobile */
+        margin: 5px auto;
+    }
+}
+/* STYLES TAMBAHAN UNTUK ANIMASI SCROLL (Fade In) */
+
+/* Keadaan awal: tidak terlihat dan agak bergeser ke atas */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 0.8s ease-out;
+}
+
+/* Keadaan akhir: terlihat dan di posisi normal */
+.fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Gaya untuk teks fakta yang berputar */
+.fakta-text {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--color-primary);
+    transition: opacity 0.5s;
+}
